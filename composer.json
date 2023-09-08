@@ -1,0 +1,14 @@
+{
+    "require": {
+        "symfony/console": "5.4",
+        "symfony/var-dumper": "5.4",
+        "symfony/finder": "5.4",
+        "symfony/process": "5.4",
+        "symfony/filesystem": "5.4"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "FGTasks\\" : "src/"
+        }
+    }
+}
