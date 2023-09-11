@@ -22,11 +22,10 @@ class FixSiteImagesCommand extends CommandBase{
     function exec(){
         $domain = $this->in->getArgument('domain');
         $base_dir = "/home/fgmed_wm/web/$domain/public_html/";
-        ['table_name' => $table_name, ...$conf] = $this->extractConfig($base_dir, []);
-        dd($conf);
+        $conf = $this->extractConfig($base_dir, []);
         $conn = $conf->getDbConnection();
-        $count = $conn->fetchOne("SELECT COUNT(*) FROM $conf[table_prefix]posts;");
-        
+        $count = $conn->fetchOne("SELECT COUNT(*) FROM $conf[table_prefix]metadata;");
+        dd($count);
         $finder = new Finder();
         $files = $finder->files()->in($base_dir."*/*/*/")->name("*.jpg");
         foreach($files as $f){
