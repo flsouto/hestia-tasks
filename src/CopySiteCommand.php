@@ -30,12 +30,12 @@ class CopySiteCommand extends CommandBase{
         $config_to = $this->extractConfig($base_dir_to);
         $cmd = 'mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME"';
         $p = Process::fromShellCommandLine($cmd);
-        $p->run(null,$config_from);
+        $p->run(null,(array)$config_from);
         $dump = str_replace("fgmed.org","stdev.fgmed.org",$p->getOutput());
         file_put_contents($dumpf="/dev/shm/dump.sql", $dump);
         $cmd = 'mysql -u "$DB_USER" -f -p"$DB_PASSWORD" "$DB_NAME" < '.$dumpf;
         $p = Process::fromShellCommandLine($cmd);
-        $p->run(null,$config_to);
+        $p->run(null,(array)$config_to);
 
         Process::fromShellCommandLine('rm "$path_to" -Rf; cp "$path_from" "$path_to" -R')
         ->run(null,[
