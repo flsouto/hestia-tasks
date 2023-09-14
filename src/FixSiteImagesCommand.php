@@ -24,19 +24,22 @@ class FixSiteImagesCommand extends CommandBase{
         $base_dir = "/home/fgmed_wm/web/$domain/public_html/";
         $conf = $this->extractConfig($base_dir, []);
         $conn = $conf->getDbConnection();
-
+        dd($conf);
+        $row  = $conn->executeQuery("
+            SELECT post_content FROM $conf[table_prefix]posts
+            WHERE post_content LIKE '%CHULESCO%'
+        ")->fetchAll();
+        dd($row);
         $urls = $conn->executeQuery("
             SELECT meta_value FROM $conf[table_prefix]postmeta
             WHERE meta_value LIKE '%webp'
         ")->fetchAll(\PDO::FETCH_COLUMN);
-
+        dd($urls);
         $urls = $conn->executeQuery("
             SELECT meta_value FROM $conf[table_prefix]postmeta
             WHERE meta_value LIKE '%jpg' OR meta_value LIKE '%png'
         ")->fetchAll(\PDO::FETCH_COLUMN);
-
         $upload_dir = $base_dir."wp-content/uploads/";
-
         foreach($urls as $url){
             $url_prefix = preg_replace("/\.(jpg|png)$/","",$url);
             $file = $upload_dir.$url;
